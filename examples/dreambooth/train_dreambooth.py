@@ -307,7 +307,7 @@ class DreamBoothDataset(Dataset):
         self.image_transforms = transforms.Compose(
             [
                 transforms.RandomHorizontalFlip(0.5 * hflip),
-                transforms.Resize(size, interpolation=transforms.InterpolationMode.BILINEAR),
+                transforms.Resize(size, interpolation=transforms.InterpolationMode.BILINEAR, antialias=True),
                 transforms.CenterCrop(size) if center_crop else transforms.RandomCrop(size),
                 transforms.ToTensor(),
                 transforms.Normalize([0.5], [0.5]),
@@ -694,7 +694,7 @@ def main(args):
                 ),
                 safety_checker=None,
                 scheduler=scheduler,
-                torch_dtype=torch.float16,
+                torch_dtype=torch.float32,
                 revision=args.revision,
             )
             save_dir = os.path.join(args.output_dir, f"{step}")
